@@ -1,0 +1,4 @@
+*.profraw
+.build/
+.swiftpm/
+skbd*.tar.gz
