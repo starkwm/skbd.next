@@ -13,8 +13,14 @@ lint:
 test:
 	@swift test
 
+test-coverage:
+	@swift test --disable-xctest --enable-code-coverage --quiet
+
+coverage: test-coverage
+	@xcrun llvm-cov report --ignore-filename-regex=".build|Tests" --instr-profile=.build/debug/codecov/default.profdata .build/debug/skbdPackageTests.xctest/Contents/MacOS/skbdPackageTests
+
 clean:
 	@swift package clean
 
 .DEFAULT_GOAL := build
-.PHONY: build release format lint test clean
+.PHONY: build release format lint test test-coverage coverage clean
