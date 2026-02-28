@@ -1,3 +1,6 @@
+VERSION_TMPL=Sources/Skbd/Version.swift.tmpl
+VERSION_FILE=Sources/Skbd/Version.swift
+
 build:
 	@swift build
 
@@ -22,5 +25,8 @@ coverage: test-coverage
 clean:
 	@swift package clean
 
+bump_version:
+	@sed 's/__VERSION__/$(NEW_VERSION)/g' $(VERSION_TMPL) > $(VERSION_FILE)
+
 .DEFAULT_GOAL := build
-.PHONY: build release format lint test test-coverage coverage clean
+.PHONY: build release format lint test test-coverage coverage clean bump_version
