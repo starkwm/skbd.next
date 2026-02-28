@@ -44,7 +44,7 @@ public class EventTapManager {
     eventTap = CGEvent.tapCreate(
       tap: .cghidEventTap,
       place: .headInsertEventTap,
-      options: .listenOnly,
+      options: .defaultTap,
       eventsOfInterest: (1 << CGEventType.keyDown.rawValue),
       callback: callback,
       userInfo: Unmanaged.passUnretained(self).toOpaque()
@@ -71,7 +71,10 @@ public class EventTapManager {
 
       let eventHotKey = HotKey.from(event: event)
       let hotkey = hotKeys.first { $0 == eventHotKey }
-      let result = try? hotkey?.execute()
+
+      guard let hotkey = hotkey else { return event }
+
+      let result = hotkey.execute()
 
       if case .consumed = result { return nil }
       return event

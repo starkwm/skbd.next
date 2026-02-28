@@ -28,7 +28,7 @@ public struct HotKey {
   }
 
   @discardableResult
-  func execute(onExecute: (() -> Void)? = nil) throws -> HotKeyResult {
+  func execute(onExecute: (() -> Void)? = nil) -> HotKeyResult {
     guard let command = command else { return .passthrough }
 
     let shell =
@@ -39,7 +39,7 @@ public struct HotKey {
     process.arguments = ["-c", command]
     process.standardOutput = FileHandle.nullDevice
     process.standardError = FileHandle.nullDevice
-    try process.run()
+    try? process.run()
 
     onExecute?()
 
