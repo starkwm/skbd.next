@@ -11,7 +11,9 @@ struct HotKeyTests {
   func fromEventWithNoModifiers() async throws {
     let event = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(0), keyDown: true)!
     event.flags = CGEventFlags()
+
     let hotKey = HotKey.from(event: event)
+
     #expect(hotKey.modifierFlags == [])
     #expect(hotKey.key == 0)
   }
@@ -20,7 +22,9 @@ struct HotKeyTests {
   func fromEventWithCmdModifier() async throws {
     let event = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(0), keyDown: true)!
     event.flags = .maskCommand
+
     let hotKey = HotKey.from(event: event)
+
     #expect(hotKey.modifierFlags == .cmd)
     #expect(hotKey.key == 0)
   }
@@ -29,7 +33,9 @@ struct HotKeyTests {
   func fromEventWithMultipleModifiers() async throws {
     let event = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(0), keyDown: true)!
     event.flags = [.maskCommand, .maskShift]
+
     let hotKey = HotKey.from(event: event)
+
     #expect(hotKey.modifierFlags == [.cmd, .shift])
     #expect(hotKey.key == 0)
   }
@@ -38,7 +44,9 @@ struct HotKeyTests {
   func fromEventWithSpecialKey() async throws {
     let event = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(36), keyDown: true)!
     event.flags = CGEventFlags()
+
     let hotKey = HotKey.from(event: event)
+
     #expect(hotKey.modifierFlags == [])
     #expect(hotKey.key == 36)
   }
@@ -47,7 +55,9 @@ struct HotKeyTests {
   func fromEventWithInvalidKeycode() async throws {
     let event = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(999), keyDown: true)!
     event.flags = .maskCommand
+
     let hotKey = HotKey.from(event: event)
+
     #expect(hotKey.modifierFlags == .cmd)
     #expect(hotKey.key == 999)
   }
@@ -175,7 +185,7 @@ struct HotKeyTests {
 
     #expect(hotKey.command == nil)
 
-    try hotKey.execute(onExecute: { executed = true })
+    hotKey.execute(onExecute: { executed = true })
 
     #expect(executed == false)
   }
@@ -185,7 +195,7 @@ struct HotKeyTests {
     let hotKey = HotKey(modifierFlags: .cmd, key: 0, command: "true")
     var executed = false
 
-    try hotKey.execute { executed = true }
+    hotKey.execute { executed = true }
 
     #expect(executed)
   }
@@ -195,7 +205,7 @@ struct HotKeyTests {
     let hotKey = HotKey(modifierFlags: .cmd, key: 0, command: "false")
     var executed = false
 
-    try hotKey.execute { executed = true }
+    hotKey.execute { executed = true }
 
     #expect(executed)
   }
@@ -217,7 +227,7 @@ struct HotKeyTests {
     let hotKey = HotKey(modifierFlags: .cmd, key: 0, command: "true")
     var executed = false
 
-    try hotKey.execute { executed = true }
+    hotKey.execute { executed = true }
 
     #expect(executed)
   }
@@ -239,8 +249,9 @@ struct HotKeyTests {
     let hotKey = HotKey(modifierFlags: .cmd, key: 0, command: "true")
     var executed = false
 
-    try hotKey.execute { executed = true }
+    hotKey.execute { executed = true }
 
     #expect(executed)
+  }
   }
 }
