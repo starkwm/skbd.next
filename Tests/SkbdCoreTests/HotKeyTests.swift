@@ -253,5 +253,26 @@ struct HotKeyTests {
 
     #expect(executed)
   }
+
+  @Test("execute with passthrough returns passthrough")
+  func executeWithPassthroughReturnsPassthrough() async throws {
+    let hotKey = HotKey(modifierFlags: .cmd, key: 0, command: "true", passthrough: true)
+    var executed = false
+
+    let result = hotKey.execute { executed = true }
+
+    #expect(executed)
+    #expect(result == .passthrough)
+  }
+
+  @Test("execute without passthrough returns consumed")
+  func executeWithoutPassthroughReturnsConsumed() async throws {
+    let hotKey = HotKey(modifierFlags: .cmd, key: 0, command: "true", passthrough: false)
+    var executed = false
+
+    let result = hotKey.execute { executed = true }
+
+    #expect(executed)
+    #expect(result == .consumed)
   }
 }

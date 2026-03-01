@@ -27,6 +27,10 @@ You can declare key binds by specifying one or more modifier keys and the key to
 
     cmd + shift - k: open -a iTerm
 
+By default, the key event is consumed after executing the command. To allow the key press to pass through to the application, use `->` instead of `:`.
+
+    cmd + shift - k -> open -a iTerm
+
 The command will be executed using the shell defined by the `$SHELL` environment variable, falling back to `/bin/bash` if not set. Commands can be split over multiple lines by using a `\` at the end of the line.
 
     ctrl + shift - enter:
@@ -37,6 +41,10 @@ The command will be executed using the shell defined by the `$SHELL` environment
                   -e 'else' \
                   -e '  tell application "Ghostty" to activate' \
                   -e 'end if' > /dev/null
+
+### Comments
+
+Comments can be added to the configuration file with lines starting with `#`.
 
 ### Modifiers
 
@@ -156,7 +164,3 @@ You can specify a list of processes to ignore shortcuts when that process is the
     ]
 
 When the specfied process is the current front-most process, any matching shortcuts will not execute the command.
-
-### Comments
-
-Comments can be added to the configuration file with lines starting with `#`.

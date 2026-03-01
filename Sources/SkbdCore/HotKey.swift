@@ -19,12 +19,20 @@ public struct HotKey {
 
   var command: String?
 
+  var passthrough: Bool = false
+
   init() {}
 
-  init(modifierFlags: ModifierFlags, key: UInt32, command: String? = nil) {
+  init(
+    modifierFlags: ModifierFlags,
+    key: UInt32,
+    command: String? = nil,
+    passthrough: Bool = false
+  ) {
     self.modifierFlags = modifierFlags
     self.key = key
     self.command = command
+    self.passthrough = passthrough
   }
 
   @discardableResult
@@ -43,7 +51,7 @@ public struct HotKey {
 
     onExecute?()
 
-    return .consumed
+    return passthrough ? .passthrough : .consumed
   }
 }
 

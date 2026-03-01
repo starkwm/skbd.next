@@ -60,9 +60,14 @@ public class Parser {
       throw ParserError.invalidKeyLiteral
     }
 
-    guard match(.command) else { throw ParserError.expectedCommandAfterKey }
-
-    hotKey.command = try parseCommand()
+    if match(.command) {
+      hotKey.command = try parseCommand()
+    } else if match(.arrow) {
+      hotKey.command = try parseCommand()
+      hotKey.passthrough = true
+    } else {
+      throw ParserError.expectedCommandAfterKey
+    }
 
     return hotKey
   }

@@ -31,8 +31,15 @@ class Lexer {
       token.type = .plus
       advance()
     case "-":
-      token.type = .dash
-      advance()
+      if peek() == ">" {
+        advance(by: 2)
+        skipWhitespace()
+        token.type = .arrow
+        token.text = readCommand()
+      } else {
+        token.type = .dash
+        advance()
+      }
     case "[":
       token.type = .beginList
       advance()

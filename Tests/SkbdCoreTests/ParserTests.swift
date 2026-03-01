@@ -131,6 +131,31 @@ struct ParserTests {
     )
   }
 
+  @Test("parse with passthrough arrow")
+  func parseWithPassthroughArrow() async throws {
+    let input = """
+      lctrl - space-> echo "space passthrough"
+      rcmd - a: echo "a consumed"
+      """
+
+    let parser = Parser(with: input)
+    let result = parser.parse()
+    let configuration = try result.get()
+
+    #expect(configuration.hotKeys.count == 2)
+    #expect(configuration.blockList.isEmpty)
+
+    #expect(configuration.hotKeys[0].key == kVK_Space)
+    #expect(configuration.hotKeys[0].modifierFlags == .lctrl)
+    #expect(configuration.hotKeys[0].command == "echo \"space passthrough\"")
+    #expect(configuration.hotKeys[0].passthrough == true)
+
+    #expect(configuration.hotKeys[1].key == kVK_ANSI_A)
+    #expect(configuration.hotKeys[1].modifierFlags == .rcmd)
+    #expect(configuration.hotKeys[1].command == "echo \"a consumed\"")
+    #expect(configuration.hotKeys[1].passthrough == false)
+  }
+
   @Test("parse with invalid input")
   func parseInvalidInput() async throws {
     let parser = Parser(with: "iterm: open -a iTerm2.app")

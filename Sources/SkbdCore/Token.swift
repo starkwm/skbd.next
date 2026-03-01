@@ -4,6 +4,7 @@ enum TokenType {
   case keyHex
   case literal
   case command
+  case arrow
   case plus
   case dash
   case directive
