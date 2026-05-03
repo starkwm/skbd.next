@@ -21,7 +21,7 @@ If you build from source, you'll need to create a Launch Agent `.plist` file to 
 
 ## Configuration
 
-`skbd` can be configured using a single file, or a directory of multiple files. By default files located in `~/.config/skbd` are used. The path can be overridden using the `-c/--config` flag.
+`skbd` can be configured using a single file, or a directory of multiple files. By default `~/.config/skbd/skbdrc` is used. If the configured path points to a directory, `skbd` loads all non-hidden regular files in that directory in lexicographical filename order. The path can be overridden using the `-c/--config` flag.
 
 You can declare key binds by specifying one or more modifier keys and the key to bind to a command.
 

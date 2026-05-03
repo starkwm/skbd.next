@@ -9,9 +9,9 @@ if arguments.version {
   exit(EXIT_SUCCESS)
 }
 
-var lock: FileLock? = FileLock()
+let lock = FileLock()
 
-switch lock!.acquire() {
+switch lock.acquire() {
 case .success:
   break
 case .failure(.alreadyLocked):
@@ -24,20 +24,20 @@ case .failure(.failed(let reason)):
   exit(EXIT_FAILURE)
 }
 
-var parser: Parser?
+let parser: Parser
 
 do {
-  let input = try String(contentsOf: arguments.config, encoding: .utf8)
+  let input = try ConfigurationLoader.load(from: arguments.config)
   parser = Parser(with: input)
 } catch {
-  fputs("failed to find configuration file: \(error.localizedDescription)\n", stderr)
+  fputs("failed to load configuration: \(error.localizedDescription)\n", stderr)
   fflush(stderr)
   exit(EXIT_FAILURE)
 }
 
-var eventTap: EventTapManager?
+let eventTap: EventTapManager
 
-switch parser!.parse() {
+switch parser.parse() {
 case .success(let configuration):
   eventTap = EventTapManager(hotKeys: configuration.hotKeys, blockList: configuration.blockList)
 case .failure(let error):
@@ -46,7 +46,7 @@ case .failure(let error):
   exit(EXIT_FAILURE)
 }
 
-switch eventTap!.begin() {
+switch eventTap.begin() {
 case .success: break
 case .failure(let error):
   fputs("error starting the event tap: \(error)\n", stderr)
