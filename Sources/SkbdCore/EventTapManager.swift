@@ -64,7 +64,9 @@ public class EventTapManager {
       CGEvent.tapEnable(tap: eventTap, enable: true)
     case .keyDown:
       let processName = NSWorkspace.shared.frontmostApplication?.localizedName
-      guard let processName = processName, !blockList.contains(processName) else { return event }
+      if let processName, blockList.contains(processName) {
+        return event
+      }
 
       let eventHotKey = HotKey.from(event: event)
       let hotkey = hotKeys.first { $0 == eventHotKey }
