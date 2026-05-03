@@ -12,6 +12,7 @@ public enum ParserError: Error {
   case expectedStringLiteral
   case invalidDirective
   case unexpectedTokenInBlocklist
+  case unexpectedError
 }
 
 extension ParserError: CustomStringConvertible {
@@ -43,6 +44,8 @@ extension ParserError: CustomStringConvertible {
       return "invalid directive"
     case .unexpectedTokenInBlocklist:
       return "unexpected token in blocklist"
+    case .unexpectedError:
+      return "unexpected parser error"
     }
   }
 }

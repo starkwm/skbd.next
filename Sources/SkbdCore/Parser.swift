@@ -32,8 +32,10 @@ public class Parser {
       }
 
       return .success(configuration)
+    } catch let error as ParserError {
+      return .failure(error)
     } catch {
-      return .failure(error as! ParserError)
+      return .failure(.unexpectedError)
     }
   }
 

@@ -385,13 +385,16 @@ struct ParserTests {
   func parseModifierNilText() async throws {
     let parser = Parser(with: FakeLexer(tokens: [Token(type: .modifier, text: nil)]))
     let result = parser.parse()
-    let isExpectedFailure = if case .failure(.invalidModifierLiteral) = result { true } else { false }
+    let isExpectedFailure =
+      if case .failure(.invalidModifierLiteral) = result { true } else { false }
     #expect(isExpectedFailure)
   }
 
   @Test("parse command with nil text")
   func parseCommandNilText() async throws {
-    let parser = Parser(with: FakeLexer(tokens: [Token(type: .key, text: "a"), Token(type: .command, text: nil)]))
+    let parser = Parser(
+      with: FakeLexer(tokens: [Token(type: .key, text: "a"), Token(type: .command, text: nil)])
+    )
     let result = parser.parse()
     let isExpectedFailure = if case .failure(.invalidCommand) = result { true } else { false }
     #expect(isExpectedFailure)
@@ -399,7 +402,11 @@ struct ParserTests {
 
   @Test("parse blocklist directive with nil text")
   func parseBlocklistDirectiveNilText() async throws {
-    let parser = Parser(with: FakeLexer(tokens: [Token(type: .directive, text: nil), Token(type: .beginList), Token(type: .endList)]))
+    let parser = Parser(
+      with: FakeLexer(tokens: [
+        Token(type: .directive, text: nil), Token(type: .beginList), Token(type: .endList),
+      ])
+    )
     let result = parser.parse()
     let isExpectedFailure = if case .failure(.invalidDirective) = result { true } else { false }
     #expect(isExpectedFailure)
@@ -407,9 +414,15 @@ struct ParserTests {
 
   @Test("parse blocklist process name with nil text")
   func parseBlocklistProcessNameNilText() async throws {
-    let parser = Parser(with: FakeLexer(tokens: [Token(type: .directive, text: ".blocklist"), Token(type: .beginList), Token(type: .string, text: nil), Token(type: .endList)]))
+    let parser = Parser(
+      with: FakeLexer(tokens: [
+        Token(type: .directive, text: ".blocklist"), Token(type: .beginList),
+        Token(type: .string, text: nil), Token(type: .endList),
+      ])
+    )
     let result = parser.parse()
-    let isExpectedFailure = if case .failure(.expectedStringLiteral) = result { true } else { false }
+    let isExpectedFailure =
+      if case .failure(.expectedStringLiteral) = result { true } else { false }
     #expect(isExpectedFailure)
   }
 }
